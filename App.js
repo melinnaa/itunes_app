@@ -33,7 +33,7 @@ export default function App() {
                     iconName = focused ? "list-circle" : "list-circle-outline";
                     break;
                   case "SearchTab":
-                    iconName = focused ? "eye" : "eye-outline";
+                    iconName = focused ? "search-circle" : "search-circle-outline";
                     break;
                   default:
                     iconName = "ban";

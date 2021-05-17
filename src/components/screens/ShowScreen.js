@@ -14,20 +14,19 @@ export function ShowScreen({route, navigation}) {
     const [musicDetails, setMusicDetails] = useState(route.params ? route.params.musicDetails : "")
 
     return (
-    <View>
-        <View> 
-            <Text>Track: {musicDetails.trackName}</Text> 
-            <Image source={{uri: musicDetails.image}} style = {{height: 200, width:200, resizeMode : 'stretch', margin: 5 }}></Image>       
-            <Text>Artist: {musicDetails.artistName}</Text>  
-            <Text>Album: {musicDetails.album}</Text>  
-            <Text>Genre: {musicDetails.genre}</Text>
-            <View>
-                <Text>Rating:</Text>
-                <TextInput placeholder="My rate /5" onChangeText={setRating} defaultValue={musicDetails.rating}></TextInput>
-            </View>
-            <Button title="Save" onPress={() => add()} /> 
-        </View> 
-        <Button title="Go back" onPress={() => navigation.goBack()} /> 
+    <View style={styles.container}>
+        <Text style={styles.text}>Track: {musicDetails.trackName}</Text> 
+        <Image source={{uri: musicDetails.image}} style={{height: 200, width:200, resizeMode : 'stretch', margin: 5, alignSelf:'center' }}></Image>       
+        <View>
+            <Text style={styles.text}>Artist: {musicDetails.artistName}</Text>  
+            <Text style={styles.text}>Album: {musicDetails.album}</Text>  
+            <Text style={styles.text}>Genre: {musicDetails.genre}</Text>
+        </View>
+        <View>
+            <Text style={styles.text}>Rating:</Text>
+            <TextInput placeholder="My rate /5" onChangeText={setRating} defaultValue={musicDetails.rating} style={styles.textInput}></TextInput>
+        </View>
+        <Button title="Save" onPress={() => add()} color="#C4449F"/> 
     </View>
     );
 
@@ -40,5 +39,40 @@ export function ShowScreen({route, navigation}) {
     function add(){
         dispatch(addMusic(musicDetails));
     }
-
 }
+
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#272727',
+        color: 'white',
+        justifyContent: 'space-evenly'
+    },
+
+    textInput: {
+        fontSize: 18,
+        padding: 8,
+        color: 'white'
+    },
+
+    searchBlock: {
+        margin: 0,
+        shadowOffset:{  width: 0,  height: 20,  },
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+        shadowRadius: 15
+    },
+
+    text: {
+        fontSize: 18,
+        padding: 4,
+        color: 'white'
+    },
+
+    searchLine: {
+        flexDirection: 'row',
+        color: 'white'
+    }
+
+});

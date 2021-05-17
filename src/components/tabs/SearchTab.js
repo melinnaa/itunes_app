@@ -25,26 +25,35 @@ export function SearchTab() {
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: '#FFF7E4',
-      padding: 15,
-      paddingBottom: 20
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#272727',
+        color: 'white'
     },
 
     textInput: {
         fontSize: 18,
-        backgroundColor: "white",
         padding: 8,
-        marginBottom: 15,
+        color: 'white'
     },
 
     searchBlock: {
-        flex: 1,
-        flexDirection: 'row'
+        margin: 0,
+        shadowOffset:{  width: 0,  height: 20,  },
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+        shadowRadius: 15
     },
 
     text: {
         fontSize: 18,
-        padding: 4 
+        padding: 4,
+        color: 'white'
+    },
+
+    searchLine: {
+        flexDirection: 'row',
+        color: 'white'
     }
 
-  });
+});

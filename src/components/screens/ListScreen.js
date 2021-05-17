@@ -11,26 +11,80 @@ import { addMusic } from "../../slices/MusicSlice.js";
 export function ListScreen({route, navigation}){
     const musics = useSelector(musicSelector);
 
-    return (
-        <ScrollView>
+    if (musics.length > 0){
+        return (
+        <ScrollView contentContainerStyle={styles.container}>
             <FlatList
             data={musics}
             renderItem=
             {
                 ({item}) => (
-                <View onClick={() =>  handleMusicSelected(item)}>
+                <View onClick={() =>  handleMusicSelected(item)} style={styles.searchLine}>
                     <Image source={{uri: item.image}} style={{height: 100, width: 100, resizeMode : 'stretch', margin: 5 }}></Image>       
-                    <Text value={item.trackName}> {item.trackName} </Text>
-                    <Text value={item.artistName}> {item.artistName} </Text>
+                    <Text value={item.trackName} style={styles.text}> {item.trackName} </Text>
+                    <Text value={item.artistName} style={styles.text}> {item.artistName} </Text>
                 </View>
                 )
         
             }
             keyExtractor={item => item.trackId}/>
         </ScrollView>
-    )
+        )
+    }
+
+    else {
+        return (
+        <View style={styles.container2}>
+            <Text style={styles.text}> No musics yet </Text>
+        </View>)
+    }
+    
 
     function handleMusicSelected(item){
        navigation.navigate("ShowScreen", { musicDetails: item })
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#272727',
+        color: 'white'
+    },
+
+    container2: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#272727',
+        color: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    textInput: {
+        fontSize: 18,
+        padding: 8,
+        color: 'white'
+    },
+
+    searchBlock: {
+        margin: 0,
+        shadowOffset:{  width: 0,  height: 20,  },
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+        shadowRadius: 15
+    },
+
+    text: {
+        fontSize: 18,
+        padding: 4,
+        color: 'white'
+    },
+
+    searchLine: {
+        flexDirection: 'row',
+        color: 'white'
+    }
+
+});

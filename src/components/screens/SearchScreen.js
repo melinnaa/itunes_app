@@ -16,17 +16,19 @@ export function SearchScreen({navigation}){
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.searchBlock}>
-                <TextInput placeholder="Search music" value={musicInput} onChangeText={setMusicInput} style={[styles.textInput, {marginRight: 20}]}></TextInput>
-                <Button onPress={() => findMusic(musicInput)} title={"Search"} color="black"></Button>
+                <TextInput placeholder="Search music" value={musicInput} onChangeText={setMusicInput} style={[styles.textInput]}></TextInput>
+                <Button onPress={() => findMusic(musicInput)} title={"Search"} color="#C4449F"></Button>
             </View>
-
             <FlatList
             data={musics}
-            renderItem={({item}) => <Text value={item.trackName} onPress={() => handleMusicSelected(item)} style={styles.text}>{item.trackName}</Text>}
+            renderItem={({item}) => 
+            <View onClick={() => handleMusicSelected(item)} style={styles.searchLine}>
+                <Image source={{uri: item.artworkUrl100}} style = {{height: 70, width: 70, resizeMode : 'stretch', margin: 5 }}></Image>       
+                <Text value={item.trackName} style={styles.text}>{item.trackName} </Text>    
+                <Text value={item.artistName} style={styles.text}>{item.artistName}</Text>
+            </View>}
             keyExtractor={item => item.trackId}
             />
-
-            <Button onPress={() => show()}></Button>
         </ScrollView>
     );
 
@@ -37,6 +39,7 @@ export function SearchScreen({navigation}){
 
     function filterMusicDetails(details){
         return {
+            'trackId': details.trackId,
             'trackName': details.trackName,
             'image': details.artworkUrl100,
             'artistName': details.artistName,
@@ -65,26 +68,36 @@ export function SearchScreen({navigation}){
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: '#FFF7E4',
-      padding: 15,
-      paddingBottom: 20
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#272727',
+        color: 'white'
     },
 
     textInput: {
         fontSize: 18,
-        backgroundColor: "white",
         padding: 8,
-        marginBottom: 15,
+        color: 'white'
     },
 
     searchBlock: {
-        flex: 1,
-        flexDirection: 'row'
+        margin: 0,
+        shadowOffset:{  width: 0,  height: 20,  },
+        shadowColor: 'black',
+        shadowOpacity: 0.3,
+        shadowRadius: 15
     },
 
     text: {
         fontSize: 18,
-        padding: 4 
+        padding: 4,
+        color: 'white'
+    },
+
+    searchLine: {
+        flexDirection: 'row',
+        color: 'white',
+        justifyContent: 'space-between'
     }
 
 });
