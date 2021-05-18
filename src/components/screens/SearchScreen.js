@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, FlatList, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch } from "react-redux";
@@ -15,26 +15,32 @@ export function SearchScreen({navigation}){
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.searchBlock}>
-                <TextInput placeholder="Search music" value={musicInput} onChangeText={setMusicInput} style={[styles.textInput]}></TextInput>
-                <Button onPress={() => findMusic(musicInput)} title={"Search"} color="#C4449F"></Button>
-            </View>
-            <FlatList
-            data={musics}
-            renderItem={({item}) => 
-            <View onClick={() => handleMusicSelected(item)} style={styles.searchLine}>
-                <Image source={{uri: item.artworkUrl100}} style = {{height: 70, width: 70, resizeMode : 'stretch', margin: 5 }}></Image>       
-                <Text value={item.trackName} style={styles.text}>{item.trackName} </Text>    
-                <Text value={item.artistName} style={styles.text}>{item.artistName}</Text>
-            </View>}
-            keyExtractor={item => item.trackId}
-            />
+                <View style={styles.searchBlock}>
+                    <TextInput placeholder="Search music" placeholderTextColor="gray" value={musicInput} onChangeText={setMusicInput} style={[styles.textInput]}></TextInput>
+                    <Button onPress={() => findMusic(musicInput)} title={"Search"} color="#C4449F"></Button>
+                </View>
+                <FlatList
+                data={musics}
+                renderItem={({item}) => 
+                <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleMusicSelected(item)}>
+                    <View style={styles.searchLine}>
+                        <Image source={{uri: item.artworkUrl100}} style = {{height: 70, width: 70, resizeMode : 'stretch', margin: 5 }}></Image>       
+                        <View>
+                            <Text value={item.trackName} style={styles.text}>{item.trackName}</Text>    
+                            <Text value={item.artistName} style={styles.text}>{item.artistName}</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>}
+                keyExtractor={item => item.trackId}
+                />
         </ScrollView>
     );
 
     function handleMusicSelected(item){
        const obj = filterMusicDetails(item);
-       navigation.navigate("ShowScreen", { musicDetails: obj })
+       navigation.navigate("ShowScreen", { musicDetails: obj, from:'remote' })
     }
 
     function filterMusicDetails(details){
@@ -97,7 +103,8 @@ const styles = StyleSheet.create({
     searchLine: {
         flexDirection: 'row',
         color: 'white',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        flexWrap: "wrap"
     }
 
 });

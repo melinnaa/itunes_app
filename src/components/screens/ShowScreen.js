@@ -15,18 +15,23 @@ export function ShowScreen({route, navigation}) {
 
     return (
     <View style={styles.container}>
-        <Text style={styles.text}>Track: {musicDetails.trackName}</Text> 
-        <Image source={{uri: musicDetails.image}} style={{height: 200, width:200, resizeMode : 'stretch', margin: 5, alignSelf:'center' }}></Image>       
-        <View>
-            <Text style={styles.text}>Artist: {musicDetails.artistName}</Text>  
-            <Text style={styles.text}>Album: {musicDetails.album}</Text>  
-            <Text style={styles.text}>Genre: {musicDetails.genre}</Text>
-        </View>
-        <View>
-            <Text style={styles.text}>Rating:</Text>
-            <TextInput placeholder="My rate /5" onChangeText={setRating} defaultValue={musicDetails.rating} style={styles.textInput}></TextInput>
-        </View>
-        <Button title="Save" onPress={() => add()} color="#C4449F"/> 
+            <Text style={styles.text}>{musicDetails.trackName}</Text> 
+            <Image source={{uri: musicDetails.image}} style={{height: 200, width:200, resizeMode : 'stretch', margin: 5, alignSelf:'center' }}></Image>       
+            <View>
+                <Text style={styles.text}>Artist: {musicDetails.artistName}</Text>  
+                <Text style={styles.text}>Album: {musicDetails.album}</Text>  
+                <Text style={styles.text}>Genre: {musicDetails.genre}</Text>
+            </View>
+            <View style={{flexDirection:"row", alignItems: "center"}}>
+                <Text style={styles.text}>Rating:</Text>
+                { route.params.from == "remote" &&
+                <TextInput placeholder="My rate /5" onChangeText={setRating} defaultValue={musicDetails.rating} style={styles.textInput} placeholderTextColor="gray"></TextInput>
+                }
+                { route.params.from == "local" &&
+                <Text style={styles.text}>{musicDetails.rating}</Text>
+                }
+                </View>
+            <Button title="Save" onPress={() => add()} color="#C4449F"/> 
     </View>
     );
 
@@ -38,6 +43,7 @@ export function ShowScreen({route, navigation}) {
 
     function add(){
         dispatch(addMusic(musicDetails));
+        navigation.goBack()
     }
 }
 
@@ -72,7 +78,7 @@ const styles = StyleSheet.create({
 
     searchLine: {
         flexDirection: 'row',
-        color: 'white'
+        color: 'white',
     }
 
 });

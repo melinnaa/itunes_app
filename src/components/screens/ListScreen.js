@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, FlatList, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, FlatList, Image, ScrollView, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch } from "react-redux";
@@ -19,11 +19,19 @@ export function ListScreen({route, navigation}){
             renderItem=
             {
                 ({item}) => (
-                <View onClick={() =>  handleMusicSelected(item)} style={styles.searchLine}>
-                    <Image source={{uri: item.image}} style={{height: 100, width: 100, resizeMode : 'stretch', margin: 5 }}></Image>       
-                    <Text value={item.trackName} style={styles.text}> {item.trackName} </Text>
-                    <Text value={item.artistName} style={styles.text}> {item.artistName} </Text>
+                    
+                <View >
+                    <TouchableOpacity
+                    style={[styles.button, styles.searchLine]}
+                    onPress={() => handleMusicSelected(item)}>
+                        <Image source={{uri: item.image}} style={{height: 100, width: 100, resizeMode : 'stretch', margin: 5 }}></Image>       
+                        <View>
+                            <Text value={item.trackName} style={styles.text}> {item.trackName} </Text>
+                            <Text value={item.artistName} style={styles.text}> {item.artistName} </Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
+               
                 )
         
             }
@@ -41,7 +49,7 @@ export function ListScreen({route, navigation}){
     
 
     function handleMusicSelected(item){
-       navigation.navigate("ShowScreen", { musicDetails: item })
+       navigation.navigate("ShowScreen", { musicDetails: item, from:'local' })
     }
 }
 
@@ -57,7 +65,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         backgroundColor: '#272727',
-        color: 'gray',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -84,7 +91,7 @@ const styles = StyleSheet.create({
 
     searchLine: {
         flexDirection: 'row',
-        color: 'white'
+        color: 'white',
     }
 
 });
